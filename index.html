@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Share Flex Message Ready</title>
+    <title>Share Flex Message</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
     <style>
         body {
@@ -25,22 +25,17 @@
             text-align: center;
             color: #333;
         }
-        #errorMsg { 
-            color: #d9534f;
-            word-break: break-word;
-            max-width: 80vw;
-        }
+        #errorMsg { color: #d9534f; word-break: break-word; max-width: 80vw; }
         #loadingMsg { color: #4A90E2; }
         #successMsg { color: #28a745; }
     </style>
 </head>
 <body>
-    <div class="msg" id="loadingMsg">⏳ กำลังเริ่มต้น LIFF และเตรียมการแชร์...</div>
-    <div class="msg" id="successMsg">✅ แชร์ให้เพื่อน ๆ สำเร็จแล้ว</div>
-    <div class="msg" id="errorMsg">❌ เกิดข้อผิดพลาดในการแชร์</div> 
+    <div class="msg" id="loadingMsg">⏳ กำลังเริ่มต้น LIFF ID ใหม่...</div>
+    <div class="msg" id="successMsg">✅ แชร์ให้เพื่อนเรียบร้อยแล้ว</div>
+    <div class="msg" id="errorMsg">❌ เกิดข้อผิดพลาด</div> 
 
     <script>
-        // กำหนด Flex Message
         const flexMessage = {
             type: "flex",
             altText: "📚 แนะนำหนังสือน่าอ่าน โดย นตท.ชั้นปีที่ 2",
@@ -96,21 +91,8 @@
                             layout: "vertical",
                             backgroundColor: "#9370DB",
                             contents: [
-                                {
-                                    type: "text",
-                                    text: "เพราะเป็นวัยรุ่นจึงเจ็บปวด",
-                                    weight: "bold",
-                                    size: "md",
-                                    color: "#FFFFFF",
-                                    wrap: true
-                                },
-                                {
-                                    type: "text",
-                                    text: "แนะนำโดย : นตท.ปรมัตถ์ ศิลา",
-                                    size: "sm",
-                                    color: "#E0E0E0",
-                                    wrap: true
-                                }
+                                { type: "text", text: "เพราะเป็นวัยรุ่นจึงเจ็บปวด", weight: "bold", size: "md", color: "#FFFFFF", wrap: true },
+                                { type: "text", text: "แนะนำโดย : นตท.ปรมัตถ์ ศิลา", size: "sm", color: "#E0E0E0", wrap: true }
                             ]
                         }
                     },
@@ -133,21 +115,8 @@
                             layout: "vertical",
                             backgroundColor: "#9370DB",
                             contents: [
-                                {
-                                    type: "text",
-                                    text: "ความรู้ทั่วไป 100 ข้อควรรู้",
-                                    weight: "bold",
-                                    size: "md",
-                                    color: "#FFFFFF",
-                                    wrap: true
-                                },
-                                {
-                                    type: "text",
-                                    text: "แนะนำโดย : นตท.ศิลป์ชัย เชื้อประกอบกิจ",
-                                    size: "sm",
-                                    color: "#E0E0E0",
-                                    wrap: true
-                                }
+                                { type: "text", text: "ความรู้ทั่วไป 100 ข้อควรรู้", weight: "bold", size: "md", color: "#FFFFFF", wrap: true },
+                                { type: "text", text: "แนะนำโดย : นตท.ศิลป์ชัย เชื้อประกอบกิจ", size: "sm", color: "#E0E0E0", wrap: true }
                             ]
                         }
                     }
@@ -157,16 +126,14 @@
 
         function displayMessage(id) {
             document.querySelectorAll('.msg').forEach(el => el.style.display = 'none');
-            const target = document.getElementById(id);
-            if(target) target.style.display = 'block';
+            document.getElementById(id).style.display = 'block';
         }
 
         async function main() {
             displayMessage('loadingMsg');
-            
             try {
-                // เปลี่ยน LIFF ID ให้ตรงกับที่สร้างใน LINE Developers Console
-                await liff.init({ liffId: "2007236505-Lbr300GA" });  
+                // อัปเดต LIFF ID เป็นตัวใหม่ของคุณแล้ว
+                await liff.init({ liffId: "2008854598-cnlKa7e0" });  
 
                 if (!liff.isLoggedIn()) {
                     liff.login();
@@ -174,30 +141,22 @@
                 }
                 
                 if (!liff.isApiAvailable("shareTargetPicker")) {
-                    throw new Error("เครื่องนี้ไม่รองรับ ShareTargetPicker (กรุณาเปิดในแอป LINE)");
+                    throw new Error("กรุณาเปิดลิงก์นี้ภายในแอป LINE เท่านั้น");
                 }
 
-                displayMessage('loadingMsg'); // ยังคงสถานะ loading จนกว่าจะกดแชร์
-
                 const result = await liff.shareTargetPicker([flexMessage]);
-                
                 if (result) {
                     displayMessage('successMsg');
                     setTimeout(() => liff.closeWindow(), 2000);
                 } else {
-                    // กรณีผู้ใช้กดปิดหน้าเลือกเพื่อน
                     liff.closeWindow();
                 }
-
             } catch (err) {
-                console.error("Share Error:", err);
                 const errorMsgElement = document.getElementById('errorMsg');
-                errorMsgElement.innerHTML = `❌ เกิดข้อผิดพลาด: <br> ${err.message || 'ไม่ทราบสาเหตุ'}`;
+                errorMsgElement.innerHTML = `❌ เกิดข้อผิดพลาด: <br> ${err.message}`;
                 displayMessage('errorMsg'); 
-                // ไม่ต้องปิดทันทีเพื่อให้เห็น Error
             }
         }
-
         main();
     </script>
 </body>
