@@ -1,0 +1,93 @@
+const flexMessage = {
+  type: "flex",
+  altText: "📚 แนะนำหนังสือน่าอ่าน โดย นตท.ชั้นปีที่ 2",
+  contents: {
+    type: "carousel",
+    contents: [
+      {
+        type: "bubble",
+        hero: {
+          type: "image",
+          url: "https://img5.pic.in.th/file/secure-sv1/3e1bd8a8a8a5300ed.png",
+          size: "full",
+          aspectMode: "cover",
+          aspectRatio: "2:3",
+          action: {
+            type: "uri",
+            uri: "https://liff.line.me/2008854598-cnlKa7e0"
+          }
+        }
+      },
+      {
+        type: "bubble",
+        hero: {
+          type: "image",
+          url: "https://img5.pic.in.th/file/secure-sv1/1330ade013245c9f1.png",
+          size: "full",
+          aspectMode: "cover",
+          aspectRatio: "2:3",
+          action: {
+            type: "uri",
+            uri: "https://youtube.com/shorts/8hca6aG3sFA"
+          }
+        },
+        body: {
+          type: "box",
+          layout: "vertical",
+          backgroundColor: "#9370DB",
+          contents: [
+            {
+              type: "text",
+              text: "เพราะเป็นวัยรุ่นจึงเจ็บปวด",
+              weight: "bold",
+              color: "#FFFFFF",
+              wrap: true
+            },
+            {
+              type: "text",
+              text: "แนะนำโดย : นตท.ปรมัตถ์ ศิลา",
+              size: "sm",
+              color: "#E0E0E0",
+              wrap: true
+            }
+          ]
+        }
+      },
+      {
+        type: "bubble",
+        hero: {
+          type: "image",
+          url: "https://img2.pic.in.th/2bb7f525b70bd0015.png",
+          size: "full",
+          aspectMode: "cover",
+          aspectRatio: "2:3",
+          action: {
+            type: "uri",
+            uri: "https://youtube.com/shorts/Du-d0q2tLpU"
+          }
+        },
+        body: {
+          type: "box",
+          layout: "vertical",
+          backgroundColor: "#9370DB",
+          contents: [
+            {
+              type: "text",
+              text: "ความรู้ทั่วไป 100 ข้อควรรู้",
+              weight: "bold",
+              color: "#FFFFFF",
+              wrap: true
+            },
+            {
+              type: "text",
+              text: "แนะนำโดย : นตท.ศิลป์ชัย เชื้อประกอบกิจ",
+              size: "sm",
+              color: "#E0E0E0",
+              wrap: true
+            }
+          ]
+        }
+      }
+    ]
+  }
+};
