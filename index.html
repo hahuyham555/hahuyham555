@@ -1,93 +1,204 @@
-const flexMessage = {
-  type: "flex",
-  altText: "📚 แนะนำหนังสือน่าอ่าน โดย นตท.ชั้นปีที่ 2",
-  contents: {
-    type: "carousel",
-    contents: [
-      {
-        type: "bubble",
-        hero: {
-          type: "image",
-          url: "https://img5.pic.in.th/file/secure-sv1/3e1bd8a8a8a5300ed.png",
-          size: "full",
-          aspectMode: "cover",
-          aspectRatio: "2:3",
-          action: {
-            type: "uri",
-            uri: "https://liff.line.me/2008854598-cnlKa7e0"
-          }
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Flex Message Ready</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background: #eef2ff;
         }
-      },
-      {
-        type: "bubble",
-        hero: {
-          type: "image",
-          url: "https://img5.pic.in.th/file/secure-sv1/1330ade013245c9f1.png",
-          size: "full",
-          aspectMode: "cover",
-          aspectRatio: "2:3",
-          action: {
-            type: "uri",
-            uri: "https://youtube.com/shorts/8hca6aG3sFA"
-          }
-        },
-        body: {
-          type: "box",
-          layout: "vertical",
-          backgroundColor: "#9370DB",
-          contents: [
-            {
-              type: "text",
-              text: "เพราะเป็นวัยรุ่นจึงเจ็บปวด",
-              weight: "bold",
-              color: "#FFFFFF",
-              wrap: true
-            },
-            {
-              type: "text",
-              text: "แนะนำโดย : นตท.ปรมัตถ์ ศิลา",
-              size: "sm",
-              color: "#E0E0E0",
-              wrap: true
+        .msg {
+            display: none;
+            padding: 20px 30px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            font-size: 18px;
+            text-align: center;
+            color: #333;
+        }
+        #errorMsg { 
+            color: #d9534f;
+            word-break: break-word;
+            max-width: 80vw;
+        }
+        #loadingMsg { color: #4A90E2; }
+        #successMsg { color: #28a745; }
+    </style>
+</head>
+<body>
+    <div class="msg" id="loadingMsg">⏳ กำลังเริ่มต้น LIFF และเตรียมการแชร์...</div>
+    <div class="msg" id="successMsg">✅ แชร์ให้เพื่อน ๆ สำเร็จแล้ว</div>
+    <div class="msg" id="errorMsg">❌ เกิดข้อผิดพลาดในการแชร์</div> 
+
+    <script>
+        // กำหนด Flex Message
+        const flexMessage = {
+            type: "flex",
+            altText: "📚 แนะนำหนังสือน่าอ่าน โดย นตท.ชั้นปีที่ 2",
+            contents: {
+                type: "carousel",
+                contents: [
+                    {
+                        type: "bubble",
+                        body: {
+                            type: "box",
+                            layout: "vertical",
+                            contents: [
+                                {
+                                    type: "image",
+                                    url: "https://img5.pic.in.th/file/secure-sv1/3e1bd8a8a8a5300ed.png",
+                                    size: "full",
+                                    aspectMode: "cover",
+                                    aspectRatio: "2.3:3"
+                                },
+                                {
+                                    type: "button",
+                                    action: {
+                                        type: "uri",
+                                        uri: "https://liff.line.me/2008854598-cnlKa7e0",
+                                        label: "ดูรายละเอียด"
+                                    },
+                                    position: "absolute",
+                                    offsetTop: "15%",
+                                    offsetEnd: "5%",
+                                    offsetStart: "5%",
+                                    offsetBottom: "10%"
+                                }
+                            ],
+                            paddingAll: "none"
+                        }
+                    },
+                    {
+                        type: "bubble",
+                        hero: {
+                            type: "image",
+                            size: "full",
+                            aspectMode: "cover",
+                            aspectRatio: "2.9:3",
+                            url: "https://img5.pic.in.th/file/secure-sv1/1330ade013245c9f1.png",
+                            action: {
+                                type: "uri",
+                                label: "watch",
+                                uri: "https://youtube.com/shorts/8hca6aG3sFA?si=Hjq7rZq6bmOFvJeA"
+                            }
+                        },
+                        body: {
+                            type: "box",
+                            layout: "vertical",
+                            backgroundColor: "#9370DB",
+                            contents: [
+                                {
+                                    type: "text",
+                                    text: "เพราะเป็นวัยรุ่นจึงเจ็บปวด",
+                                    weight: "bold",
+                                    size: "md",
+                                    color: "#FFFFFF",
+                                    wrap: true
+                                },
+                                {
+                                    type: "text",
+                                    text: "แนะนำโดย : นตท.ปรมัตถ์ ศิลา",
+                                    size: "sm",
+                                    color: "#E0E0E0",
+                                    wrap: true
+                                }
+                            ]
+                        }
+                    },
+                    {
+                        type: "bubble",
+                        hero: {
+                            type: "image",
+                            url: "https://img2.pic.in.th/2bb7f525b70bd0015.png",
+                            size: "full",
+                            aspectMode: "cover",
+                            aspectRatio: "2.9:3",
+                            action: {
+                                type: "uri",
+                                label: "watch",
+                                uri: "https://youtube.com/shorts/Du-d0q2tLpU?si=OSnluBeHHuaVTUr7"
+                            }
+                        },
+                        body: {
+                            type: "box",
+                            layout: "vertical",
+                            backgroundColor: "#9370DB",
+                            contents: [
+                                {
+                                    type: "text",
+                                    text: "ความรู้ทั่วไป 100 ข้อควรรู้",
+                                    weight: "bold",
+                                    size: "md",
+                                    color: "#FFFFFF",
+                                    wrap: true
+                                },
+                                {
+                                    type: "text",
+                                    text: "แนะนำโดย : นตท.ศิลป์ชัย เชื้อประกอบกิจ",
+                                    size: "sm",
+                                    color: "#E0E0E0",
+                                    wrap: true
+                                }
+                            ]
+                        }
+                    }
+                ]
             }
-          ]
+        };
+
+        function displayMessage(id) {
+            document.querySelectorAll('.msg').forEach(el => el.style.display = 'none');
+            const target = document.getElementById(id);
+            if(target) target.style.display = 'block';
         }
-      },
-      {
-        type: "bubble",
-        hero: {
-          type: "image",
-          url: "https://img2.pic.in.th/2bb7f525b70bd0015.png",
-          size: "full",
-          aspectMode: "cover",
-          aspectRatio: "2:3",
-          action: {
-            type: "uri",
-            uri: "https://youtube.com/shorts/Du-d0q2tLpU"
-          }
-        },
-        body: {
-          type: "box",
-          layout: "vertical",
-          backgroundColor: "#9370DB",
-          contents: [
-            {
-              type: "text",
-              text: "ความรู้ทั่วไป 100 ข้อควรรู้",
-              weight: "bold",
-              color: "#FFFFFF",
-              wrap: true
-            },
-            {
-              type: "text",
-              text: "แนะนำโดย : นตท.ศิลป์ชัย เชื้อประกอบกิจ",
-              size: "sm",
-              color: "#E0E0E0",
-              wrap: true
+
+        async function main() {
+            displayMessage('loadingMsg');
+            
+            try {
+                // เปลี่ยน LIFF ID ให้ตรงกับที่สร้างใน LINE Developers Console
+                await liff.init({ liffId: "2007236505-Lbr300GA" });  
+
+                if (!liff.isLoggedIn()) {
+                    liff.login();
+                    return;
+                }
+                
+                if (!liff.isApiAvailable("shareTargetPicker")) {
+                    throw new Error("เครื่องนี้ไม่รองรับ ShareTargetPicker (กรุณาเปิดในแอป LINE)");
+                }
+
+                displayMessage('loadingMsg'); // ยังคงสถานะ loading จนกว่าจะกดแชร์
+
+                const result = await liff.shareTargetPicker([flexMessage]);
+                
+                if (result) {
+                    displayMessage('successMsg');
+                    setTimeout(() => liff.closeWindow(), 2000);
+                } else {
+                    // กรณีผู้ใช้กดปิดหน้าเลือกเพื่อน
+                    liff.closeWindow();
+                }
+
+            } catch (err) {
+                console.error("Share Error:", err);
+                const errorMsgElement = document.getElementById('errorMsg');
+                errorMsgElement.innerHTML = `❌ เกิดข้อผิดพลาด: <br> ${err.message || 'ไม่ทราบสาเหตุ'}`;
+                displayMessage('errorMsg'); 
+                // ไม่ต้องปิดทันทีเพื่อให้เห็น Error
             }
-          ]
         }
-      }
-    ]
-  }
-};
+
+        main();
+    </script>
+</body>
+</html>
